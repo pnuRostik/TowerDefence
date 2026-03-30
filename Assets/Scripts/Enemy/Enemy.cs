@@ -5,13 +5,24 @@ public class Enemy : MonoBehaviour
 {
     [SerializeField] private float moveSpeed = 3f;
     [SerializeField] private Path currentPathInstance;
+    [SerializeField] private int damage = 10;
     private GameObject[] path;
     private int currentIndex = 0;
     private Vector3 _targetPosition;
+    public Health myHealth;
 
     private void Awake()
     {
         currentPathInstance = GameObject.Find("Path").GetComponent<Path>();
+        myHealth.OnHealthChanged.AddListener(CheckDeath);
+    }
+
+    private void CheckDeath(int current, int max)
+    {
+        if (current == 0)
+        {
+            Destroy(gameObject);
+        }
     }
 
     void OnEnable()
@@ -41,6 +52,8 @@ public class Enemy : MonoBehaviour
             _targetPosition,
             moveSpeed * Time.deltaTime
         );
+        if (UnityEngine.Random.Range(0, 100) < 10)
+            myHealth.TakeDamage(1);
 
         float relativeDisatance = (transform.position - _targetPosition).magnitude;
 
@@ -50,7 +63,10 @@ public class Enemy : MonoBehaviour
 
             if (currentIndex >= path.Length)
             {
-                gameObject.SetActive(false);
+                GameObject tower = GameObject.FindWithTag("Tower");
+                var health = tower.GetComponent<Health>();
+                health.TakeDamage(damage);
+                Destroy(gameObject);
             }
         }
 
