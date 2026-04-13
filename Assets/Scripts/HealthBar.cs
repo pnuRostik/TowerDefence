@@ -13,7 +13,7 @@ public class HealthBar : MonoBehaviour
             UpdateBar(health.health, health.maxHealth);
         }
     }
-    void UpdateBar(int current, int max)
+    void UpdateBar(float current, float max)
     {
         if (fillimage != null && max > 0)
         {

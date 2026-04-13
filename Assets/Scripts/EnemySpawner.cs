@@ -15,7 +15,7 @@ public class EnemySpawner : MonoBehaviour
 
     IEnumerator SpawnRoutine()
     {
-        while (true)
+        while (false)
         {
             int idx = Random.Range(0, enemyPrefabs.Length);
             GameObject prefab = enemyPrefabs[idx];

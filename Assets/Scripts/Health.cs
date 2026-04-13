@@ -3,14 +3,14 @@ using UnityEngine.Events;
 
 public class Health : MonoBehaviour
 {
-    public int maxHealth = 100;
-    public int health;
-    public UnityEvent<int, int> OnHealthChanged; // current, max
+    public float maxHealth = 100f;
+    public float health;
+    public UnityEvent<float, float> OnHealthChanged; // current, max
     private void Awake()
     {
         health = maxHealth;
     }
-    public void TakeDamage(int amount)
+    public void TakeDamage(float amount)
     {
         health -= amount;
         if (health < 0)

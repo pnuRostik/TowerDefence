@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc02b53f8f33b4740bfaebde28c2a5fe, type: 3}
+  m_Name: Mage
+  m_EditorClassIdentifier: Assembly-CSharp::TowerData
+  towerName: Mage
+  cost: 150
+  attackSpeed: 1.5
+  range: 2
+  damage: 10
+  attackType: 1
+  prefab: {fileID: 512487310136095338, guid: d734c24125a550ca5886d8ce0a8de944, type: 3}
+  icon: {fileID: 1236525989961790680, guid: 60bb2a5acd5fd7ed5a28fb5d51d960d4, type: 3}
