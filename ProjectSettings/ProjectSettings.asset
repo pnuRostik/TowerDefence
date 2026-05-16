@@ -658,7 +658,13 @@ PlayerSettings:
   XboxOneOverrideIdentityName: 
   XboxOneOverrideIdentityPublisher: 
   vrEditorSettings: {}
-  cloudServicesEnabled: {}
+  cloudServicesEnabled:
+    Build: 0
+    Game Performance: 0
+    Legacy Analytics: 0
+    Purchasing: 0
+    UDP: 0
+    Unity Ads: 0
   luminIcon:
     m_Name: 
     m_ModelFolderPath: 
@@ -680,11 +686,11 @@ PlayerSettings:
   captureStartupLogs: {}
   activeInputHandler: 1
   windowsGamepadBackendHint: 0
-  cloudProjectId: 405e268c-3961-4b84-a89c-f6b3b07e0642
+  cloudProjectId: a34d2530-ac3d-4f0a-8ae3-8cb7ae407026
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
-  projectName: TowerDefence
-  organizationId: unity_kurpqs3acu32ba
+  projectName: TowerDefence (3)
+  organizationId: unity_9510a315bf31a8cb3a42
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
   hmiLoadingImage: {fileID: 0}
