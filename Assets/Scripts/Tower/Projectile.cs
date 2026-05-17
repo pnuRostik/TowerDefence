@@ -9,12 +9,19 @@ public class Projectile : MonoBehaviour
     public bool isExplosive;
     public float explosionRadius;
 
-    public void Setup(Enemy _target, float _damage, bool _isExplosive, float _explosionRadius)
+    [SerializeField] private GameObject explosionEffectPrefab;
+
+    public void Setup(Enemy _target, float _damage)
     {
         target = _target;
         damage = _damage;
-        isExplosive = _isExplosive;
-        explosionRadius = _explosionRadius;
+    }
+
+
+
+    private void OnDisable()
+    {
+        target = null;
     }
 
     void OnDrawGizmos()
@@ -27,20 +34,20 @@ public class Projectile : MonoBehaviour
 
     void Update()
     {
-
-        if (target == null || target.myHealth.health <= 0)
+        if (target == null || !target.gameObject.activeInHierarchy || target.myHealth.health <= 0)
         {
-            Destroy(gameObject);
+            if (gameObject.activeSelf) Deactivate();
             return;
         }
 
         transform.position = Vector3.MoveTowards(transform.position, target.transform.position, speed * Time.deltaTime);
 
         Vector3 direction = target.transform.position - transform.position;
-
-        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-
-        transform.rotation = Quaternion.Euler(0, 0, angle);
+        if (direction != Vector3.zero)
+        {
+            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+            transform.rotation = Quaternion.Euler(0, 0, angle);
+        }
 
         if (Vector3.Distance(transform.position, target.transform.position) < 0.2f)
         {
@@ -59,7 +66,7 @@ public class Projectile : MonoBehaviour
             target.TakeDamage(damage);
         }
 
-        Destroy(gameObject);
+        Deactivate();
     }
 
     void Explode()
@@ -72,5 +79,10 @@ public class Projectile : MonoBehaviour
                 enemy.TakeDamage(damage);
             }
         }
+    }
+
+    private void Deactivate()
+    {
+        gameObject.SetActive(false); 
     }
 }

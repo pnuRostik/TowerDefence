@@ -6,7 +6,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float moveSpeed = 3f;
     [SerializeField] private bool isGhost = false;
     private float defaultSpeed;
-[SerializeField] private Path currentPathInstance;
+
     [SerializeField] private int damage = 10;
 
     public float distanceTravelled;
@@ -24,7 +24,6 @@ public class Enemy : MonoBehaviour
 
     private void Awake()
     {
-        currentPathInstance = GameObject.Find("Path").GetComponent<Path>();
         myHealth.OnHealthChanged.AddListener(CheckDeath);
         spriteRenderer = GetComponent<SpriteRenderer>();
         spawner = UnityEngine.Object.FindAnyObjectByType<EnemySpawner>();
@@ -32,23 +31,33 @@ public class Enemy : MonoBehaviour
         defaultSpeed = moveSpeed;
     }
 
-    private void OnDestroy()
+    public void InitializePath(GameObject[] assignedPath)
     {
-        if (spawner != null)
+        path = assignedPath;
+        currentIndex = 0;
+        distanceTravelled = 0f;
+
+        
+
+        if (path != null && path.Length > 0)
         {
-            spawner.EnemyDestroyed();
+            transform.position = path[0].transform.position;
+            _lastPosition = transform.position;
         }
     }
+   
 
     private void CheckDeath(float current, float max)
     {
-        if (current == 0)
+        if (path == null || !gameObject.activeSelf) return;
+
+        if (current <= 0)
         {
             if (EconomyManager.Instance != null)
             {
                 EconomyManager.Instance.AddGold(goldReward);
             }
-            Destroy(gameObject);
+            DeactivateEnemy();
         }
     }
 
@@ -60,25 +69,18 @@ public class Enemy : MonoBehaviour
     void OnEnable()
     {
         moveSpeed = defaultSpeed;
-        if(spriteRenderer != null) spriteRenderer.color = originalColor;
-
-        int randomIndex = UnityEngine.Random.Range(0, 3);
-        path = currentPathInstance.GetPath(randomIndex);
-        _lastPosition = transform.position;
-        distanceTravelled = 0f;
-
-        Debug.Log(randomIndex);
-
-        currentIndex = 0;
-
-        if (path != null && path.Length > 0)
-        {
-            transform.position = path[0].transform.position;
-        }
+        slowTimer = 0f;
+        if (myHealth != null) myHealth.ResetHealth(); 
+        if (spriteRenderer != null) spriteRenderer.color = originalColor;
     }
 
     void Update()
     {
+        if (GameManager.Instance != null &&
+            (GameManager.Instance.CurrentState == GameState.Victory ||
+             GameManager.Instance.CurrentState == GameState.Loss))
+            return;
+
         HandleSlowTimer();
 
         if (path == null || path.Length == 0) return;
@@ -106,9 +108,16 @@ public class Enemy : MonoBehaviour
             if (currentIndex >= path.Length)
             {
                 GameObject tower = GameObject.FindWithTag("Tower");
-                var health = tower.GetComponent<Health>();
-                health.TakeDamage(damage);
-                Destroy(gameObject);
+                if (tower != null)
+                {
+                    var health = tower.GetComponent<Health>();
+                    if (health != null) health.TakeDamage(damage);
+                    if(health.health <= 0)
+                    {
+                        GameManager.Instance.TriggerLoss();
+                    }
+                }
+                DeactivateEnemy();
             }
         }
 
@@ -119,6 +128,15 @@ public class Enemy : MonoBehaviour
         myHealth.TakeDamage(damage);
     }
 
+    private void DeactivateEnemy()
+    {
+        gameObject.SetActive(false); 
+
+        if (spawner != null)
+        {
+            spawner.EnemyDestroyed(); 
+        }
+    }
 
 
     public void ApplySlow(float slowFactor, float duration, float damage)
@@ -126,7 +144,7 @@ public class Enemy : MonoBehaviour
         if (isGhost) return;
         
         slowTimer = duration;
-moveSpeed = defaultSpeed * slowFactor; 
+        moveSpeed = defaultSpeed * slowFactor; 
         this.TakeDamage(damage);
         
         if (spriteRenderer != null)

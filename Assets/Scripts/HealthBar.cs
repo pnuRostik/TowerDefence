@@ -5,7 +5,7 @@ public class HealthBar : MonoBehaviour
 {
     public Health health;
     public Image fillimage;
-    private void Start()
+    private void OnEnable()
     {
         if (health != null)
         {

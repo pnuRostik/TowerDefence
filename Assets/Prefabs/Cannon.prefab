@@ -142,5 +142,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CannonTower
   data: {fileID: 11400000, guid: 653dd22bfe2e2e80688a5db0eb45ec35, type: 2}
-  firePoint: {fileID: 0}
-  arrowPrefab: {fileID: 742329022090520490, guid: 82f418763868cf564af099003285edfa, type: 3}
+  projectilePrefab: {fileID: 742329022090520490, guid: cbb52acf8af5ff52db1f63a5d3e5377e, type: 3}

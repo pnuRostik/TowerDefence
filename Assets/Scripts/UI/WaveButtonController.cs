@@ -6,25 +6,51 @@ public class WaveButtonController : MonoBehaviour
 {
     private Button button;
     private CanvasGroup canvasGroup;
-    private EnemySpawner spawner;
 
     void Awake()
     {
         button = GetComponent<Button>();
         canvasGroup = GetComponent<CanvasGroup>();
-        spawner = Object.FindAnyObjectByType<EnemySpawner>();
+        button.onClick.AddListener(OnNextWaveClicked);
     }
 
-    void Update()
+    void OnEnable()
     {
-        if (spawner != null && canvasGroup != null)
+       
+        GameManager.OnStateChanged += HandleStateChanged;
+        
+       
+        if (GameManager.Instance != null)
         {
-            bool canStart = spawner.CanStartNextWave;
-            
-            // Disappear if wave is in progress or enemies are present
-            canvasGroup.alpha = canStart ? 1 : 0;
-            canvasGroup.interactable = canStart;
-            canvasGroup.blocksRaycasts = canStart;
+            UpdateButtonVisibility(GameManager.Instance.CurrentState);
+        }
+    }
+
+    void OnDisable()
+    {
+        GameManager.OnStateChanged -= HandleStateChanged;
+    }
+
+    private void HandleStateChanged(GameState newState)
+    {
+        UpdateButtonVisibility(newState);
+    }
+
+    private void UpdateButtonVisibility(GameState state)
+    {
+        
+        bool isPreparation = (state == GameState.Preparation);
+        
+        canvasGroup.alpha = isPreparation ? 1 : 0;
+        canvasGroup.interactable = isPreparation;
+        canvasGroup.blocksRaycasts = isPreparation;
+    }
+
+    private void OnNextWaveClicked()
+    {
+        if (GameManager.Instance.CurrentState == GameState.Preparation)
+        {
+            GameManager.Instance.ChangeState(GameState.Battle);
         }
     }
 }

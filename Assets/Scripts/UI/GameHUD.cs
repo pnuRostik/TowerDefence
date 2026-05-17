@@ -62,7 +62,7 @@ public class GameHUD : MonoBehaviour
         if (hudText == null) return;
 
         int gold = EconomyManager.Instance != null ? EconomyManager.Instance.gold : 0;
-        int wave = spawner != null ? spawner.WaveCount : 0;
+        int wave = GameManager.Instance != null ? GameManager.Instance.CurrentWave : 0;
         float hp = baseHealth != null ? baseHealth.health : 0;
         float maxHp = baseHealth != null ? baseHealth.maxHealth : 0;
 

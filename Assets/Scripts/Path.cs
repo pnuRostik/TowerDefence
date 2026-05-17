@@ -9,7 +9,7 @@ public class Path : MonoBehaviour
 
     private GameObject[][] allTraps;
 
-    private void OnValidate()
+    private void Awake()
     {
         allTraps = new GameObject[][]
         {
@@ -46,14 +46,13 @@ public class Path : MonoBehaviour
 
     public GameObject[] GetPath(int index)
     {
-        Debug.Log(allTraps.Length);
+ 
 
         if (allTraps == null || index < 0 || index >= allTraps.Length)
         {
             return null;
         }
-        Debug.Log("end");
-
+    
         return allTraps[index];
     }
 }

@@ -142,5 +142,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ArcherTower
   data: {fileID: 11400000, guid: bfa37ad2c8f57265da4af8a3f90d36c6, type: 2}
-  firePoint: {fileID: 0}
-  arrowPrefab: {fileID: 742329022090520490, guid: 82f418763868cf564af099003285edfa, type: 3}
+  projectilePrefab: {fileID: 742329022090520490, guid: 82f418763868cf564af099003285edfa, type: 3}
