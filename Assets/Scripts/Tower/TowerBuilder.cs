@@ -14,9 +14,11 @@ public class TowerBuilder : MonoBehaviour
     [SerializeField] private List<Vector3Int> initialOccupiedCells = new List<Vector3Int>();
     private HashSet<Vector3Int> occupiedCells = new HashSet<Vector3Int>();
     private Vector3Int selectedCell;
+    private EnemySpawner spawner;
 
     private void Start()
     {
+        spawner = Object.FindAnyObjectByType<EnemySpawner>();
         GenerateMenu();
         menuPanel.SetActive(false);
 
@@ -40,17 +42,25 @@ public class TowerBuilder : MonoBehaviour
     {
         if (Mouse.current == null) return;
 
+        // Close menu if a wave starts
+        if (spawner != null && !spawner.CanStartNextWave && menuPanel.activeSelf)
+        {
+            menuPanel.SetActive(false);
+        }
+
         if (Mouse.current.leftButton.wasPressedThisFrame)
         {
-            
             if (EventSystem.current.IsPointerOverGameObject()) return;
+
+            // Prevent opening menu during wave
+            if (spawner != null && !spawner.CanStartNextWave) return;
 
             HandleTileSelection();
         }
     }
 
     private void HandleTileSelection()
-    {
+{
         Vector2 mousePos = Mouse.current.position.ReadValue();
         Vector3 worldPos = Camera.main.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, 10));
         Vector3Int cellPos = towerTilemap.WorldToCell(worldPos);
@@ -96,8 +106,10 @@ public class TowerBuilder : MonoBehaviour
 
     public void ConfirmBuild(TowerData data)
     {
+        if (spawner != null && !spawner.CanStartNextWave) return;
+
         if (EconomyManager.Instance.CanAfford(data.cost))
-        {
+{
             EconomyManager.Instance.SpendGold(data.cost);
             
             Vector3 spawnPos = towerTilemap.GetCellCenterWorld(selectedCell);

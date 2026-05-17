@@ -4,8 +4,9 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     [SerializeField] private float moveSpeed = 3f;
+    [SerializeField] private bool isGhost = false;
     private float defaultSpeed;
-    [SerializeField] private Path currentPathInstance;
+[SerializeField] private Path currentPathInstance;
     [SerializeField] private int damage = 10;
 
     public float distanceTravelled;
@@ -14,6 +15,8 @@ public class Enemy : MonoBehaviour
     private Vector3 _targetPosition;
     private Vector3 _lastPosition;
     public Health myHealth;
+    private EnemySpawner spawner;
+    private int goldReward = 10;
 
     private float slowTimer = 0f;
     private SpriteRenderer spriteRenderer;
@@ -24,16 +27,34 @@ public class Enemy : MonoBehaviour
         currentPathInstance = GameObject.Find("Path").GetComponent<Path>();
         myHealth.OnHealthChanged.AddListener(CheckDeath);
         spriteRenderer = GetComponent<SpriteRenderer>();
+        spawner = UnityEngine.Object.FindAnyObjectByType<EnemySpawner>();
 
         defaultSpeed = moveSpeed;
+    }
+
+    private void OnDestroy()
+    {
+        if (spawner != null)
+        {
+            spawner.EnemyDestroyed();
+        }
     }
 
     private void CheckDeath(float current, float max)
     {
         if (current == 0)
         {
+            if (EconomyManager.Instance != null)
+            {
+                EconomyManager.Instance.AddGold(goldReward);
+            }
             Destroy(gameObject);
         }
+    }
+
+    public void SetGoldReward(int amount)
+    {
+        goldReward = amount;
     }
 
     void OnEnable()
@@ -102,10 +123,10 @@ public class Enemy : MonoBehaviour
 
     public void ApplySlow(float slowFactor, float duration, float damage)
     {
-        //// if type ghost skip
+        if (isGhost) return;
         
         slowTimer = duration;
-        moveSpeed = defaultSpeed * slowFactor; 
+moveSpeed = defaultSpeed * slowFactor; 
         this.TakeDamage(damage);
         
         if (spriteRenderer != null)

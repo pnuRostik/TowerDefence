@@ -1,9 +1,12 @@
 using UnityEngine;
+using System;
 
 public class EconomyManager : MonoBehaviour
 {
     public static EconomyManager Instance; 
     public int gold = 1050; 
+
+    public event Action<int> OnGoldChanged;
 
     private void Awake() => Instance = this;
 
@@ -12,5 +15,12 @@ public class EconomyManager : MonoBehaviour
     public void SpendGold(int amount)
     {
         gold -= amount;
+        OnGoldChanged?.Invoke(gold);
+    }
+
+    public void AddGold(int amount)
+    {
+        gold += amount;
+        OnGoldChanged?.Invoke(gold);
     }
 }
