@@ -49,6 +49,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Enemy
   moveSpeed: 2
+  isGhost: 1
   currentPathInstance: {fileID: 0}
   damage: 20
   distanceTravelled: 0
