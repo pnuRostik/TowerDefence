@@ -40,7 +40,10 @@ public class BaseTower : MonoBehaviour
     protected virtual Enemy GetBestTarget()
     {
         enemiesInRange.RemoveAll(e => e == null || !e.gameObject.activeSelf);
-        return enemiesInRange.OrderByDescending(e => e.distanceTravelled).FirstOrDefault();
+        return enemiesInRange
+            .Where(e => Vector2.Distance(transform.position, e.transform.position) <= data.range)
+            .OrderByDescending(e => e.distanceTravelled)
+            .FirstOrDefault();
     }
 
     protected virtual void Attack(Enemy target)
