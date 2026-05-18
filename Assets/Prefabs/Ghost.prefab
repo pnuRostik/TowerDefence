@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 5619803072327098599}
   - component: {fileID: -7033191103480185125}
   - component: {fileID: 2218957420505002420}
+  - component: {fileID: 7896683065907156371}
   m_Layer: 0
   m_Name: Ghost
   m_TagString: Untagged
@@ -50,7 +51,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Enemy
   moveSpeed: 2
   isGhost: 1
-  currentPathInstance: {fileID: 0}
   damage: 20
   distanceTravelled: 0
   myHealth: {fileID: 3115978387963361749}
@@ -176,6 +176,28 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_Radius: 0.64
+--- !u!95 &7896683065907156371
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1132512659447923071}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: a0c67a4d5898cdd4ea279f3ffb781bd2, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1320617357829686003
 GameObject:
   m_ObjectHideFlags: 0
