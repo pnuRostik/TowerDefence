@@ -99,6 +99,18 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
+    public void ReturnToMainMenu()
+    {
+        Time.timeScale = 1f;
+        if (Instance != null)
+        {
+            Destroy(Instance.gameObject);
+            Instance = null;
+        }
+        MusicManager.Instance.PlayMenu();
+        SceneManager.LoadScene("MainMenu");
+    }
+
 
     private void CheckRoundConditions()
     {
