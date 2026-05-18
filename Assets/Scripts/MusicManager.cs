@@ -7,7 +7,16 @@ public class MusicManager : MonoBehaviour
     public AudioClip menuMusic;
     public AudioClip fightMusic;
 
-    private AudioSource audioSource;
+    public AudioClip hoverSound;
+    public AudioClip clickSound;
+    public AudioClip winSound;
+    public AudioClip loseSound;
+    public AudioClip enemyDieSound;
+    public AudioClip enemyReachTowerSound;
+    public AudioClip towerShootSound;
+
+    [SerializeField] private AudioSource musicSource;
+    [SerializeField] private AudioSource soundSource;
 
     void Awake()
     {
@@ -20,8 +29,6 @@ public class MusicManager : MonoBehaviour
         Instance = this;
 
         DontDestroyOnLoad(gameObject);
-
-        audioSource = GetComponent<AudioSource>();
     }
 
     void Start()
@@ -41,10 +48,18 @@ public class MusicManager : MonoBehaviour
 
     void Play(AudioClip clip)
     {
-        if (audioSource.clip == clip)
+        if (musicSource.clip == clip)
             return;
 
-        audioSource.clip = clip;
-        audioSource.Play();
+        musicSource.clip = clip;
+        musicSource.Play();
     }
+
+    public void PlayHover() => soundSource.PlayOneShot(hoverSound);
+    public void PlayClick() => soundSource.PlayOneShot(clickSound);
+    public void PlayWin() => soundSource.PlayOneShot(winSound);
+    public void PlayLose() => soundSource.PlayOneShot(loseSound);
+    public void PlayEnemyDie() => soundSource.PlayOneShot(enemyDieSound);
+    public void PlayEnemyReach() => soundSource.PlayOneShot(enemyReachTowerSound);
+    public void PlayTowerShoot() => soundSource.PlayOneShot(towerShootSound);
 }
