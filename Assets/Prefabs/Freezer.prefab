@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2528475838384381383}
   - component: {fileID: 6951655433547393933}
   - component: {fileID: -4811400530499127091}
+  - component: {fileID: -5506957323175897125}
   m_Layer: 0
   m_Name: Freezer
   m_TagString: Untagged
@@ -79,9 +80,9 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: -1911848697
-  m_SortingLayer: 1
-  m_SortingOrder: 11
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 7316229441688303391, guid: 247cc3d5988b95447a0fdf349c2a87d5, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -92,7 +93,7 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_SpriteSortPoint: 0
+  m_SpriteSortPoint: 1
 --- !u!58 &6951655433547393933
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -142,3 +143,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FreezerTower
   data: {fileID: 11400000, guid: 59f1a27e2b6ce7d5b945a8853a4feb06, type: 2}
+  projectilePrefab: {fileID: 0}
+--- !u!210 &-5506957323175897125
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4623780755179557487}
+  m_Enabled: 1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 20
+  m_SortAtRoot: 0
+  m_Sort3DAs2D: 0

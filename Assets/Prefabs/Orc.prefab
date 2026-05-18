@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 3717484671619404699}
   - component: {fileID: 4763497190529458131}
   - component: {fileID: 784520540197754845}
+  - component: {fileID: -3292118840490236954}
   m_Layer: 0
   m_Name: Orc
   m_TagString: Untagged
@@ -101,7 +102,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 15
+  m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: -7562568854868626643, guid: 2465a3fb171a08944824ed5af319c882, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -112,7 +113,7 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_SpriteSortPoint: 0
+  m_SpriteSortPoint: 1
 --- !u!58 &3717484671619404699
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -198,6 +199,19 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!210 &-3292118840490236954
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1132512659447923071}
+  m_Enabled: 1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 20
+  m_SortAtRoot: 0
+  m_Sort3DAs2D: 0
 --- !u!1 &1320617357829686003
 GameObject:
   m_ObjectHideFlags: 0

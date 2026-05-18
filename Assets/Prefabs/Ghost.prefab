@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: -7033191103480185125}
   - component: {fileID: 2218957420505002420}
   - component: {fileID: 7896683065907156371}
+  - component: {fileID: -7689071738523383332}
   m_Layer: 0
   m_Name: Ghost
   m_TagString: Untagged
@@ -101,7 +102,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 15
+  m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: -3820005247281695618, guid: 9c0222398fd84044d984712e42cf568b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -112,7 +113,7 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_SpriteSortPoint: 0
+  m_SpriteSortPoint: 1
 --- !u!50 &-7033191103480185125
 Rigidbody2D:
   serializedVersion: 5
@@ -198,6 +199,19 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!210 &-7689071738523383332
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1132512659447923071}
+  m_Enabled: 1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 20
+  m_SortAtRoot: 0
+  m_Sort3DAs2D: 0
 --- !u!1 &1320617357829686003
 GameObject:
   m_ObjectHideFlags: 0

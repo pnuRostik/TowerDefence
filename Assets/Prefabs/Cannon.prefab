@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7289208361759498278}
   - component: {fileID: 4244128272396637984}
   - component: {fileID: -2135682606628731278}
+  - component: {fileID: 2872156841736956554}
   m_Layer: 0
   m_Name: Cannon
   m_TagString: Untagged
@@ -81,7 +82,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 11
+  m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 7400674004321899189, guid: 60bb2a5acd5fd7ed5a28fb5d51d960d4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -92,7 +93,7 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_SpriteSortPoint: 0
+  m_SpriteSortPoint: 1
 --- !u!58 &4244128272396637984
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -143,3 +144,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CannonTower
   data: {fileID: 11400000, guid: 653dd22bfe2e2e80688a5db0eb45ec35, type: 2}
   projectilePrefab: {fileID: 742329022090520490, guid: cbb52acf8af5ff52db1f63a5d3e5377e, type: 3}
+--- !u!210 &2872156841736956554
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2974952451489948251}
+  m_Enabled: 1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 20
+  m_SortAtRoot: 0
+  m_Sort3DAs2D: 0

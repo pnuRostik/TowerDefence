@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 6391321841442797252}
   - component: {fileID: 2818255685028078110}
   - component: {fileID: 7292246876006048020}
+  - component: {fileID: -1488444704488361253}
   m_Layer: 0
   m_Name: Archer
   m_TagString: Untagged
@@ -79,9 +80,9 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: -1911848697
-  m_SortingLayer: 1
-  m_SortingOrder: 11
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: -7541592194320633491, guid: 60bb2a5acd5fd7ed5a28fb5d51d960d4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -92,7 +93,7 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_SpriteSortPoint: 0
+  m_SpriteSortPoint: 1
 --- !u!58 &2818255685028078110
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -143,3 +144,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ArcherTower
   data: {fileID: 11400000, guid: bfa37ad2c8f57265da4af8a3f90d36c6, type: 2}
   projectilePrefab: {fileID: 742329022090520490, guid: 82f418763868cf564af099003285edfa, type: 3}
+--- !u!210 &-1488444704488361253
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8404111681119993478}
+  m_Enabled: 1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 20
+  m_SortAtRoot: 0
+  m_Sort3DAs2D: 0
