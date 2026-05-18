@@ -6,7 +6,8 @@ public class FreezerTower : BaseTower
    {
        enemiesInRange.RemoveAll(e => e == null || !e.gameObject.activeSelf);
        
-       foreach (Enemy enemy in enemiesInRange)
+       var targets = new System.Collections.Generic.List<Enemy>(enemiesInRange);
+       foreach (Enemy enemy in targets)
        {
            if (enemy != null && enemy.gameObject.activeSelf)
            {
