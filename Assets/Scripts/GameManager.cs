@@ -39,9 +39,9 @@ public class GameManager : MonoBehaviour
 
     public void ChangeState(GameState newState)
     {
-        if (CurrentState == newState) return; 
-
+        if (CurrentState == newState) return;
        
+
         switch (CurrentState)
         {
             case GameState.Preparation:
@@ -61,14 +61,15 @@ public class GameManager : MonoBehaviour
                 
                 break;
             case GameState.Battle:
-                
+                MusicManager.Instance.PlayFight();
                 break;
             case GameState.RoundEnd:
-               
+                MusicManager.Instance.PlayMenu();
                 CheckRoundConditions();
                 break;
             case GameState.Victory:
             case GameState.Loss:
+                MusicManager.Instance.PlayMenu();
                 PauseGameplay();
                 break;
         }
