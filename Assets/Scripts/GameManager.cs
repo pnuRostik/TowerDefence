@@ -39,6 +39,9 @@ public class GameManager : MonoBehaviour
 
     public void ChangeState(GameState newState)
     {
+        // prevent bug of changing state after game has ended
+        if (CurrentState == GameState.Loss || CurrentState == GameState.Victory) return;
+
         if (CurrentState == newState) return;
        
 
