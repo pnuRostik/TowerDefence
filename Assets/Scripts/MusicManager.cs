@@ -15,6 +15,9 @@ public class MusicManager : MonoBehaviour
     public AudioClip enemyReachTowerSound;
     public AudioClip towerShootSound;
 
+    [Header("Volume Settings")]
+    [Range(0f, 1f)] public float towerShootVolume = 0.4f;
+
     [SerializeField] private AudioSource musicSource;
     [SerializeField] private AudioSource soundSource;
 
@@ -61,5 +64,5 @@ public class MusicManager : MonoBehaviour
     public void PlayLose() => soundSource.PlayOneShot(loseSound);
     public void PlayEnemyDie() => soundSource.PlayOneShot(enemyDieSound);
     public void PlayEnemyReach() => soundSource.PlayOneShot(enemyReachTowerSound);
-    public void PlayTowerShoot() => soundSource.PlayOneShot(towerShootSound);
-}
+    public void PlayTowerShoot() => soundSource.PlayOneShot(towerShootSound, towerShootVolume);
+    }

@@ -73,7 +73,8 @@ public class TowerBuilder : MonoBehaviour
             rect.pivot = new Vector2(0.5f, 0f); 
 
             UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(rect);
-            
+
+            MusicManager.Instance.PlayClick();
             PositionMenu(mousePos);
         }
         else

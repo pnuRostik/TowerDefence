@@ -53,13 +53,23 @@ public class BaseTower : MonoBehaviour
             return;
         }
 
-        GameObject projectileObj = ProjectileManager.Instance.GetProjectile(projectilePrefab, GetFirePosition(), Quaternion.identity);
+        PlayShootSound();
 
+        GameObject projectileObj = ProjectileManager.Instance.GetProjectile(projectilePrefab, GetFirePosition(), Quaternion.identity);
+        
         if (projectileObj != null && projectileObj.TryGetComponent<Projectile>(out Projectile projectile))
         {
             projectile.Setup(target, data.damage);
         }
-    }
+        }
+
+        protected virtual void PlayShootSound()
+        {
+        if (MusicManager.Instance != null)
+        {
+            MusicManager.Instance.PlayTowerShoot();
+        }
+        }
 
     protected virtual Vector3 GetFirePosition()
     {

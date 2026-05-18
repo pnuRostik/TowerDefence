@@ -68,7 +68,12 @@ public class GameManager : MonoBehaviour
                 CheckRoundConditions();
                 break;
             case GameState.Victory:
+                MusicManager.Instance.PlayWin();
+                MusicManager.Instance.PlayMenu();
+                PauseGameplay();
+                break;
             case GameState.Loss:
+                MusicManager.Instance.PlayLose();
                 MusicManager.Instance.PlayMenu();
                 PauseGameplay();
                 break;

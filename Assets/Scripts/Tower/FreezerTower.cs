@@ -4,7 +4,6 @@ public class FreezerTower : BaseTower
 {
    protected override void Attack(Enemy target)
     {
-        
         enemiesInRange.RemoveAll(e => e == null || !e.gameObject.activeSelf);
        
         foreach (Enemy enemy in enemiesInRange)
@@ -12,4 +11,6 @@ public class FreezerTower : BaseTower
             enemy.ApplySlow(0.5f, 2f, data.damage); 
         }
     }
+
+    protected override void PlayShootSound() { }
 }

@@ -57,6 +57,12 @@ public class Enemy : MonoBehaviour
             {
                 EconomyManager.Instance.AddGold(goldReward);
             }
+            
+            if (MusicManager.Instance != null)
+            {
+                MusicManager.Instance.PlayEnemyDie();
+            }
+
             DeactivateEnemy();
         }
     }
@@ -112,6 +118,11 @@ public class Enemy : MonoBehaviour
 
             if (currentIndex >= path.Length)
             {
+                if (MusicManager.Instance != null)
+                {
+                    MusicManager.Instance.PlayEnemyReach();
+                }
+
                 GameObject tower = GameObject.FindWithTag("Tower");
                 if (tower != null)
                 {

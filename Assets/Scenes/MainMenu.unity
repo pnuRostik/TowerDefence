@@ -446,11 +446,12 @@ MonoBehaviour:
   fightMusic: {fileID: 8300000, guid: 60764489937f35e418012b8095fb7d4e, type: 3}
   hoverSound: {fileID: 8300000, guid: 1dc2f2287b118ff45939a91b08a2244e, type: 3}
   clickSound: {fileID: 8300000, guid: 80d3799791748ac42b3ec097c17a2383, type: 3}
-  winSound: {fileID: 0}
-  loseSound: {fileID: 0}
-  enemyDieSound: {fileID: 0}
-  enemyReachTowerSound: {fileID: 0}
-  towerShootSound: {fileID: 0}
+  winSound: {fileID: 8300000, guid: d654174ef194bd7479bf4b8d8f753318, type: 3}
+  loseSound: {fileID: 8300000, guid: d1afd3f4d23c24f418ffc315afb04965, type: 3}
+  enemyDieSound: {fileID: 8300000, guid: 0db8862b7fe5bfa449b0f993e1fff825, type: 3}
+  enemyReachTowerSound: {fileID: 8300000, guid: 7c47b20bb9874304a809dc5580d403ba, type: 3}
+  towerShootSound: {fileID: 8300000, guid: af66162561d2eed40ad49268cab318bb, type: 3}
+  towerShootVolume: 0.04
   musicSource: {fileID: 539962346}
   soundSource: {fileID: 539962348}
 --- !u!82 &539962346
