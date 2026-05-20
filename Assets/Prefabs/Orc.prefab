@@ -55,6 +55,8 @@ MonoBehaviour:
   damage: 30
   distanceTravelled: 0
   myHealth: {fileID: 3115978387963361749}
+  goldReward: 10
+  deathEffectPrefab: {fileID: 1165174257163006497, guid: 6c1528524c8ba1f4598b203589c46741, type: 3}
 --- !u!212 &5619803072327098599
 SpriteRenderer:
   serializedVersion: 2

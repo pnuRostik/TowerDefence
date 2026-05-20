@@ -16,10 +16,11 @@ public class Enemy : MonoBehaviour
     private Vector3 _lastPosition;
     public Health myHealth;
     private EnemySpawner spawner;
-    private int goldReward = 10;
+    [SerializeField] private int goldReward = 10;
+    [SerializeField] private GameObject deathEffectPrefab;
 
     private float slowTimer = 0f;
-    private SpriteRenderer spriteRenderer;
+private SpriteRenderer spriteRenderer;
     private Color originalColor = Color.white;
 
     private void Awake()
@@ -63,8 +64,25 @@ public class Enemy : MonoBehaviour
                 MusicManager.Instance.PlayEnemyDie();
             }
 
+            if (deathEffectPrefab != null)
+            {
+                if (EffectManager.Instance != null)
+                {
+                    Debug.Log("Using EffectManager to spawn death effect.");
+                    EffectManager.Instance.GetEffect(deathEffectPrefab, transform.position, Quaternion.identity);
+                }
+                else
+                {
+                    Debug.LogWarning("EffectManager instance not found. Instantiating death effect directly.");
+                    Instantiate(deathEffectPrefab, transform.position, Quaternion.identity);
+                }
+            } else
+{
+                Debug.LogWarning("Death effect prefab is not assigned.");
+            }
+
             DeactivateEnemy();
-        }
+}
     }
 
     public void SetGoldReward(int amount)
