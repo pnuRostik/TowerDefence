@@ -18,6 +18,7 @@ public class Enemy : MonoBehaviour
     private EnemySpawner spawner;
     [SerializeField] private int goldReward = 10;
     [SerializeField] private GameObject deathEffectPrefab;
+    [SerializeField] private GameObject coinEffectPrefab;
 
     private float slowTimer = 0f;
 private SpriteRenderer spriteRenderer;
@@ -68,17 +69,24 @@ private SpriteRenderer spriteRenderer;
             {
                 if (EffectManager.Instance != null)
                 {
-                    Debug.Log("Using EffectManager to spawn death effect.");
                     EffectManager.Instance.GetEffect(deathEffectPrefab, transform.position, Quaternion.identity);
                 }
                 else
                 {
-                    Debug.LogWarning("EffectManager instance not found. Instantiating death effect directly.");
                     Instantiate(deathEffectPrefab, transform.position, Quaternion.identity);
                 }
-            } else
-{
-                Debug.LogWarning("Death effect prefab is not assigned.");
+            }
+
+            if (coinEffectPrefab != null)
+            {
+                if (EffectManager.Instance != null)
+                {
+                    EffectManager.Instance.GetEffect(coinEffectPrefab, transform.position, Quaternion.identity);
+                }
+                else
+                {
+                    Instantiate(coinEffectPrefab, transform.position, Quaternion.identity);
+                }
             }
 
             DeactivateEnemy();

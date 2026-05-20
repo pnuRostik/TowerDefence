@@ -57,6 +57,7 @@ MonoBehaviour:
   myHealth: {fileID: 3115978387963361749}
   goldReward: 10
   deathEffectPrefab: {fileID: 1165174257163006497, guid: 6c1528524c8ba1f4598b203589c46741, type: 3}
+  coinEffectPrefab: {fileID: 2777386479496265635, guid: 6029958f991c0f04e88ad52bbd325171, type: 3}
 --- !u!212 &5619803072327098599
 SpriteRenderer:
   serializedVersion: 2
