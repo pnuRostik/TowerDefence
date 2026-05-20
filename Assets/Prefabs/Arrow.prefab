@@ -108,3 +108,4 @@ MonoBehaviour:
   isExplosive: 0
   explosionRadius: 0
   explosionEffectPrefab: {fileID: 0}
+  hitEffectPrefab: {fileID: 1622864722035538452, guid: 054f69878a89ed44291a28788ad2c2ea, type: 3}
