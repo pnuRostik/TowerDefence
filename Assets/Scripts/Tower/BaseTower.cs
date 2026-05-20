@@ -95,11 +95,5 @@ public class BaseTower : MonoBehaviour
             enemiesInRange.Remove(enemy);
         }
     }
-    private void OnDrawGizmos()
-    {
-        if (data == null) return;
-
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, data.range);
-    }
+   
 }

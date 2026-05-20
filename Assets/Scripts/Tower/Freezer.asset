@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TowerData
   towerName: Freezer
   cost: 120
-  attackSpeed: 2
-  range: 2
-  damage: 2
+  attackSpeed: 2.55613
+  range: 7
+  damage: 1.21275
   attackType: 2
   prefab: {fileID: 4623780755179557487, guid: 3a2b7139566d27ee3bee6a2267521c49, type: 3}
   icon: {fileID: 7316229441688303391, guid: 247cc3d5988b95447a0fdf349c2a87d5, type: 3}

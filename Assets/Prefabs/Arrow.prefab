@@ -82,8 +82,8 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 50
   m_MaskInteraction: 0
-  m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 0.764151, g: 0.21266466, b: 0.21266466, a: 1}
+  m_Sprite: {fileID: -4346244404228752641, guid: 6ceb7b3de97530b5aad6433585282fce, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -108,4 +108,4 @@ MonoBehaviour:
   isExplosive: 0
   explosionRadius: 0
   explosionEffectPrefab: {fileID: 0}
-  hitEffectPrefab: {fileID: 1622864722035538452, guid: 054f69878a89ed44291a28788ad2c2ea, type: 3}
+  hitEffectPrefab: {fileID: 0}

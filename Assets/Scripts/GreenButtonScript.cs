@@ -17,15 +17,18 @@ public class UIButtonHover : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     }
     public void OnPointerEnter(PointerEventData eventData)
     {
-        MusicManager.Instance.PlayHover();
+        if (MusicManager.Instance != null)
+            MusicManager.Instance.PlayHover();
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        MusicManager.Instance.PlayHover();
+        if (MusicManager.Instance != null)
+            MusicManager.Instance.PlayHover();
     }
     void OnClick()
     {
-        MusicManager.Instance.PlayClick();
+        if (MusicManager.Instance != null)
+            MusicManager.Instance.PlayClick();
     }
 }

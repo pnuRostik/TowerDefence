@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::TowerData
   towerName: Mage
   cost: 150
-  attackSpeed: 1.5
-  range: 2
+  attackSpeed: 2.2921
+  range: 2.31
   damage: 10
   attackType: 1
   prefab: {fileID: 512487310136095338, guid: d734c24125a550ca5886d8ce0a8de944, type: 3}

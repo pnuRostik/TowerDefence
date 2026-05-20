@@ -694,7 +694,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 104.14, y: -50}
-  m_SizeDelta: {x: 60.28, y: 40.22}
+  m_SizeDelta: {x: 0, y: 40.22}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &326374532
 MonoBehaviour:
@@ -1655,8 +1655,8 @@ MonoBehaviour:
   - {fileID: 1111756939}
   - {fileID: 700843419}
   pathSystem: {fileID: 783593113}
-  currentBudget: 200
-  budgetIncrease: 100
+  currentBudget: 150
+  budgetIncrease: 75
   maxEnemiesPerWave: 50
   spawnInterval: 1.5
 --- !u!4 &506827031
@@ -4357,7 +4357,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44192bbc93ce15cdf8d24ee96473205e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EconomyManager
-  gold: 3000
+  gold: 400
 --- !u!4 &1024361697
 Transform:
   m_ObjectHideFlags: 0
@@ -5555,7 +5555,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 104.21, y: -50}
-  m_SizeDelta: {x: 90.42, y: 40.22}
+  m_SizeDelta: {x: 0, y: 40.22}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1253493409
 MonoBehaviour:

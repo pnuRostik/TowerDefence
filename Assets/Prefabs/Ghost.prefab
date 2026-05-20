@@ -50,7 +50,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 679d31760e87beb029ab7673e0f5b8aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Enemy
-  moveSpeed: 2
+  moveSpeed: 1.4
   isGhost: 1
   damage: 20
   distanceTravelled: 0
@@ -483,7 +483,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 012352911d7723f448261dc4972e0fe8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Health
-  maxHealth: 200
+  maxHealth: 252
   health: 0
   OnHealthChanged:
     m_PersistentCalls:

@@ -64,20 +64,26 @@ public class GameManager : MonoBehaviour
                 
                 break;
             case GameState.Battle:
-                MusicManager.Instance.PlayFight();
+                if (MusicManager.Instance != null) MusicManager.Instance.PlayFight();
                 break;
             case GameState.RoundEnd:
-                MusicManager.Instance.PlayMenu();
+                if (MusicManager.Instance != null) MusicManager.Instance.PlayMenu();
                 CheckRoundConditions();
                 break;
             case GameState.Victory:
-                MusicManager.Instance.PlayWin();
-                MusicManager.Instance.PlayMenu();
+                if (MusicManager.Instance != null)
+                {
+                    MusicManager.Instance.PlayWin();
+                    MusicManager.Instance.PlayMenu();
+                }
                 PauseGameplay();
                 break;
             case GameState.Loss:
-                MusicManager.Instance.PlayLose();
-                MusicManager.Instance.PlayMenu();
+                if (MusicManager.Instance != null)
+                {
+                    MusicManager.Instance.PlayLose();
+                    MusicManager.Instance.PlayMenu();
+                }
                 PauseGameplay();
                 break;
         }
@@ -110,7 +116,7 @@ public class GameManager : MonoBehaviour
             Destroy(Instance.gameObject);
             Instance = null;
         }
-        MusicManager.Instance.PlayMenu();
+        if (MusicManager.Instance != null) MusicManager.Instance.PlayMenu();
         SceneManager.LoadScene("MainMenu");
     }
 

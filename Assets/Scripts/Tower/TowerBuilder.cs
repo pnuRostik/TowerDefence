@@ -74,7 +74,7 @@ public class TowerBuilder : MonoBehaviour
 
             UnityEngine.UI.LayoutRebuilder.ForceRebuildLayoutImmediate(rect);
 
-            MusicManager.Instance.PlayClick();
+            if (MusicManager.Instance != null) MusicManager.Instance.PlayClick();
             PositionMenu(mousePos);
         }
         else

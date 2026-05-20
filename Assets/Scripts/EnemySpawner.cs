@@ -16,8 +16,8 @@ public class EnemySpawner : MonoBehaviour
     public EnemyType[] enemyTypes;
     public Transform[] spawnPoints;
     public Path pathSystem;
-    public int currentBudget = 200;
-    public int budgetIncrease = 100;
+    public int currentBudget = 150;
+    public int budgetIncrease = 75;
     public int maxEnemiesPerWave = 50;
     public float spawnInterval = 1.0f;
 
@@ -115,18 +115,19 @@ public class EnemySpawner : MonoBehaviour
 
     private List<EnemyType> GenerateWave()
     {
-        List<EnemyType> wave = new List<EnemyType>();
-        int remainingBudget = currentBudget;
+        int currentWave = GameManager.Instance.CurrentWave;
+        List<EnemyType> waveEnemies = new List<EnemyType>();
+        int remainingBudget = GetWaveBudget(currentWave);
+        int maxEnemies = GetMaxEnemiesForWave(currentWave);
 
-        // Create a list of affordable enemies
         List<EnemyType> affordableTypes = new List<EnemyType>();
-        
-        while (remainingBudget > 0 && wave.Count < maxEnemiesPerWave)
+
+        while (remainingBudget > 0 && waveEnemies.Count < maxEnemies)
         {
             affordableTypes.Clear();
             foreach (var type in enemyTypes)
             {
-                if (type.cost <= remainingBudget && type.prefab != null)
+                if (type.cost <= remainingBudget && type.prefab != null && IsEnemyAllowedForWave(type, currentWave))
                 {
                     affordableTypes.Add(type);
                 }
@@ -135,11 +136,52 @@ public class EnemySpawner : MonoBehaviour
             if (affordableTypes.Count == 0) break;
 
             EnemyType selected = affordableTypes[Random.Range(0, affordableTypes.Count)];
-            wave.Add(selected);
+            waveEnemies.Add(selected);
             remainingBudget -= selected.cost;
         }
 
-        return wave;
+        return waveEnemies;
+    }
+
+    private float GetSpawnIntervalForWave(int wave)
+    {
+        return wave switch
+        {
+            1 => spawnInterval * 1.4f,
+            2 => spawnInterval * 1.2f,
+            _ => spawnInterval
+        };
+    }
+
+    private int GetWaveBudget(int wave)
+    {
+        float multiplier = wave switch
+        {
+            1 => 0.55f,
+            2 => 0.7f,
+            3 => 0.85f,
+            _ => 1f
+        };
+
+        return Mathf.Max(10, Mathf.RoundToInt(currentBudget * multiplier));
+    }
+
+    private int GetMaxEnemiesForWave(int wave)
+    {
+        return wave switch
+        {
+            1 => 8,
+            2 => 12,
+            3 => 18,
+            _ => maxEnemiesPerWave
+        };
+    }
+
+    private bool IsEnemyAllowedForWave(EnemyType type, int wave)
+    {
+        if (wave == 1) return type.name == "Goblin";
+        if (wave == 2) return type.name != "Orc";
+        return true;
     }
 
     private IEnumerator SpawnWaveRoutine(List<EnemyType> enemies)
@@ -173,7 +215,7 @@ public class EnemySpawner : MonoBehaviour
                 enemyComp.InitializePath(assignedPath);
             }
             
-            yield return new WaitForSeconds(spawnInterval);
+            yield return new WaitForSeconds(GetSpawnIntervalForWave(currentWave));
         }
 
 

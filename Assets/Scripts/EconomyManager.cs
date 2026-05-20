@@ -4,7 +4,7 @@ using System;
 public class EconomyManager : MonoBehaviour
 {
     public static EconomyManager Instance; 
-    public int gold = 1050; 
+    public int gold = 200; 
 
     public event Action<int> OnGoldChanged;
 
