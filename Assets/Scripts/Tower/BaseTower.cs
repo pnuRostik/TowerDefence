@@ -40,7 +40,10 @@ public class BaseTower : MonoBehaviour
     protected virtual Enemy GetBestTarget()
     {
         enemiesInRange.RemoveAll(e => e == null || !e.gameObject.activeSelf);
-        return enemiesInRange.OrderByDescending(e => e.distanceTravelled).FirstOrDefault();
+        return enemiesInRange
+            .Where(e => Vector2.Distance(transform.position, e.transform.position) <= data.range)
+            .OrderByDescending(e => e.distanceTravelled)
+            .FirstOrDefault();
     }
 
     protected virtual void Attack(Enemy target)
@@ -53,13 +56,23 @@ public class BaseTower : MonoBehaviour
             return;
         }
 
-        GameObject projectileObj = ProjectileManager.Instance.GetProjectile(projectilePrefab, GetFirePosition(), Quaternion.identity);
+        PlayShootSound();
 
+        GameObject projectileObj = ProjectileManager.Instance.GetProjectile(projectilePrefab, GetFirePosition(), Quaternion.identity);
+        
         if (projectileObj != null && projectileObj.TryGetComponent<Projectile>(out Projectile projectile))
         {
             projectile.Setup(target, data.damage);
         }
-    }
+        }
+
+        protected virtual void PlayShootSound()
+        {
+        if (MusicManager.Instance != null)
+        {
+            MusicManager.Instance.PlayTowerShoot();
+        }
+        }
 
     protected virtual Vector3 GetFirePosition()
     {

@@ -39,9 +39,12 @@ public class GameManager : MonoBehaviour
 
     public void ChangeState(GameState newState)
     {
-        if (CurrentState == newState) return; 
+        // prevent bug of changing state after game has ended
+        if (CurrentState == GameState.Loss || CurrentState == GameState.Victory) return;
 
+        if (CurrentState == newState) return;
        
+
         switch (CurrentState)
         {
             case GameState.Preparation:
@@ -61,14 +64,20 @@ public class GameManager : MonoBehaviour
                 
                 break;
             case GameState.Battle:
-                
+                MusicManager.Instance.PlayFight();
                 break;
             case GameState.RoundEnd:
-               
+                MusicManager.Instance.PlayMenu();
                 CheckRoundConditions();
                 break;
             case GameState.Victory:
+                MusicManager.Instance.PlayWin();
+                MusicManager.Instance.PlayMenu();
+                PauseGameplay();
+                break;
             case GameState.Loss:
+                MusicManager.Instance.PlayLose();
+                MusicManager.Instance.PlayMenu();
                 PauseGameplay();
                 break;
         }
@@ -91,6 +100,18 @@ public class GameManager : MonoBehaviour
         Instance = null;
         Destroy(gameObject);
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    public void ReturnToMainMenu()
+    {
+        Time.timeScale = 1f;
+        if (Instance != null)
+        {
+            Destroy(Instance.gameObject);
+            Instance = null;
+        }
+        MusicManager.Instance.PlayMenu();
+        SceneManager.LoadScene("MainMenu");
     }
 
 

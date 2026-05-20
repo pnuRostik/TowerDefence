@@ -16,10 +16,12 @@ public class Enemy : MonoBehaviour
     private Vector3 _lastPosition;
     public Health myHealth;
     private EnemySpawner spawner;
-    private int goldReward = 10;
+    [SerializeField] private int goldReward = 10;
+    [SerializeField] private GameObject deathEffectPrefab;
+    [SerializeField] private GameObject coinEffectPrefab;
 
     private float slowTimer = 0f;
-    private SpriteRenderer spriteRenderer;
+private SpriteRenderer spriteRenderer;
     private Color originalColor = Color.white;
 
     private void Awake()
@@ -57,8 +59,38 @@ public class Enemy : MonoBehaviour
             {
                 EconomyManager.Instance.AddGold(goldReward);
             }
+            
+            if (MusicManager.Instance != null)
+            {
+                MusicManager.Instance.PlayEnemyDie();
+            }
+
+            if (deathEffectPrefab != null)
+            {
+                if (EffectManager.Instance != null)
+                {
+                    EffectManager.Instance.GetEffect(deathEffectPrefab, transform.position, Quaternion.identity);
+                }
+                else
+                {
+                    Instantiate(deathEffectPrefab, transform.position, Quaternion.identity);
+                }
+            }
+
+            if (coinEffectPrefab != null)
+            {
+                if (EffectManager.Instance != null)
+                {
+                    EffectManager.Instance.GetEffect(coinEffectPrefab, transform.position, Quaternion.identity);
+                }
+                else
+                {
+                    Instantiate(coinEffectPrefab, transform.position, Quaternion.identity);
+                }
+            }
+
             DeactivateEnemy();
-        }
+}
     }
 
     public void SetGoldReward(int amount)
@@ -93,7 +125,12 @@ public class Enemy : MonoBehaviour
             moveSpeed * Time.deltaTime
         );
 
-  
+        // Flip sprite based on movement direction
+        float movementDirection = _targetPosition.x - transform.position.x;
+        if (movementDirection > 0)
+            transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
+        else if (movementDirection < 0)
+            transform.localScale = new Vector3(-Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
 
         float relativeDisatance = (transform.position - _targetPosition).magnitude;
         float stepDistance = Vector3.Distance(transform.position, _lastPosition);
@@ -107,6 +144,11 @@ public class Enemy : MonoBehaviour
 
             if (currentIndex >= path.Length)
             {
+                if (MusicManager.Instance != null)
+                {
+                    MusicManager.Instance.PlayEnemyReach();
+                }
+
                 GameObject tower = GameObject.FindWithTag("Tower");
                 if (tower != null)
                 {

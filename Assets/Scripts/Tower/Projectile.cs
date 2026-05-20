@@ -10,9 +10,10 @@ public class Projectile : MonoBehaviour
     public float explosionRadius;
 
     [SerializeField] private GameObject explosionEffectPrefab;
+    [SerializeField] private GameObject hitEffectPrefab;
 
     public void Setup(Enemy _target, float _damage)
-    {
+{
         target = _target;
         damage = _damage;
     }
@@ -57,8 +58,20 @@ public class Projectile : MonoBehaviour
 
     void HitTarget()
     {
-        if (isExplosive)
+        if (hitEffectPrefab != null)
         {
+            if (EffectManager.Instance != null)
+            {
+                EffectManager.Instance.GetEffect(hitEffectPrefab, transform.position, Quaternion.identity);
+            }
+            else
+            {
+                Instantiate(hitEffectPrefab, transform.position, Quaternion.identity);
+            }
+        }
+
+        if (isExplosive)
+{
             Explode();
         }
         else

@@ -6,11 +6,29 @@ public class EndGameUI : MonoBehaviour
 {
     [SerializeField] private GameObject winPanel;
     [SerializeField] private GameObject losePanel;
+    [SerializeField] private GameObject greenButtonPrefab;
 
     private void Awake()
     {
+        InitializeButtons();
         EnsurePanels();
         HideAll();
+    }
+
+    private void InitializeButtons()
+    {
+        if (winPanel != null) WireRestartButton(winPanel);
+        if (losePanel != null) WireRestartButton(losePanel);
+    }
+
+    private void WireRestartButton(GameObject panel)
+    {
+        var button = panel.GetComponentInChildren<Button>(true);
+        if (button != null)
+        {
+            button.onClick.RemoveListener(OnRestartClicked);
+            button.onClick.AddListener(OnRestartClicked);
+        }
     }
 
     private void OnEnable() => GameManager.OnStateChanged += HandleStateChanged;
@@ -57,7 +75,8 @@ public class EndGameUI : MonoBehaviour
                 new Color(0.15f, 0.55f, 0.28f, 1f),
                 "VICTORY!",
                 "All waves cleared",
-                font);
+                font,
+                "Play Again");
         }
 
         if (losePanel == null)
@@ -68,7 +87,8 @@ public class EndGameUI : MonoBehaviour
                 new Color(0.7f, 0.18f, 0.18f, 1f),
                 "DEFEAT",
                 "Base destroyed",
-                font);
+                font,
+                "Try Again");
         }
     }
 
@@ -78,7 +98,8 @@ public class EndGameUI : MonoBehaviour
         Color cardColor,
         string title,
         string subtitle,
-        TMP_FontAsset font)
+        TMP_FontAsset font,
+        string buttonText)
     {
         var panel = CreateStretchObject(panelName, transform);
         var overlay = panel.AddComponent<Image>();
@@ -104,7 +125,7 @@ public class EndGameUI : MonoBehaviour
         subtitleText.color = new Color(1f, 1f, 1f, 0.85f);
         subtitleText.alignment = TextAlignmentOptions.Center;
 
-        CreateRestartButton(card.transform, font);
+        CreateRestartButton(card.transform, font, buttonText);
 
         panel.SetActive(false);
         panel.transform.SetAsLastSibling();
@@ -153,31 +174,61 @@ public class EndGameUI : MonoBehaviour
         return label;
     }
 
-    private void CreateRestartButton(Transform parent, TMP_FontAsset font)
+    private void CreateRestartButton(Transform parent, TMP_FontAsset font, string buttonText)
     {
-        var buttonGo = new GameObject("RestartButton", typeof(RectTransform));
-        buttonGo.transform.SetParent(parent, false);
+        GameObject buttonGo;
+        Button button;
 
-        var rect = buttonGo.GetComponent<RectTransform>();
-        rect.anchorMin = new Vector2(0.5f, 0.5f);
-        rect.anchorMax = new Vector2(0.5f, 0.5f);
-        rect.pivot = new Vector2(0.5f, 0.5f);
-        rect.sizeDelta = new Vector2(260f, 56f);
-        rect.anchoredPosition = new Vector2(0f, -80f);
+        if (greenButtonPrefab != null)
+        {
+            buttonGo = Instantiate(greenButtonPrefab, parent);
+            buttonGo.name = "RestartButton";
+            var rect = buttonGo.GetComponent<RectTransform>();
+            rect.anchorMin = new Vector2(0.5f, 0.5f);
+            rect.anchorMax = new Vector2(0.5f, 0.5f);
+            rect.pivot = new Vector2(0.5f, 0.5f);
+            rect.sizeDelta = new Vector2(180f, 45f);
+            rect.anchoredPosition = new Vector2(0f, -80f);
 
-        var image = buttonGo.AddComponent<Image>();
-        image.color = new Color(0.15f, 0.15f, 0.15f, 1f);
+            button = buttonGo.GetComponent<Button>();
+            var label = buttonGo.GetComponentInChildren<TextMeshProUGUI>();
+            if (label != null)
+            {
+                label.text = buttonText;
+                label.fontSize = 24; // Explicitly set font size
+                if (font != null) label.font = font;
+            }
+}
+        else
+        {
+            buttonGo = new GameObject("RestartButton", typeof(RectTransform));
+            buttonGo.transform.SetParent(parent, false);
 
-        var button = buttonGo.AddComponent<Button>();
-        button.targetGraphic = image;
-        button.onClick.AddListener(OnRestartClicked);
+            var rect = buttonGo.GetComponent<RectTransform>();
+            rect.anchorMin = new Vector2(0.5f, 0.5f);
+            rect.anchorMax = new Vector2(0.5f, 0.5f);
+            rect.pivot = new Vector2(0.5f, 0.5f);
+            rect.sizeDelta = new Vector2(260f, 56f);
+            rect.anchoredPosition = new Vector2(0f, -80f);
 
-        var label = CreateLabel("Text", buttonGo.transform, font, 24, "Try Again", Vector2.zero);
-        label.rectTransform.anchorMin = Vector2.zero;
-        label.rectTransform.anchorMax = Vector2.one;
-        label.rectTransform.offsetMin = Vector2.zero;
-        label.rectTransform.offsetMax = Vector2.zero;
-        label.rectTransform.anchoredPosition = Vector2.zero;
+            var image = buttonGo.AddComponent<Image>();
+            image.color = new Color(0.15f, 0.15f, 0.15f, 1f);
+
+            button = buttonGo.AddComponent<Button>();
+            button.targetGraphic = image;
+
+            var label = CreateLabel("Text", buttonGo.transform, font, 24, buttonText, Vector2.zero);
+            label.rectTransform.anchorMin = Vector2.zero;
+            label.rectTransform.anchorMax = Vector2.one;
+            label.rectTransform.offsetMin = Vector2.zero;
+            label.rectTransform.offsetMax = Vector2.zero;
+            label.rectTransform.anchoredPosition = Vector2.zero;
+        }
+
+        if (button != null)
+        {
+            button.onClick.AddListener(OnRestartClicked);
+        }
     }
 
     private void OnRestartClicked()

@@ -3,31 +3,30 @@ using TMPro;
 
 public class GameHUD : MonoBehaviour
 {
-    private TextMeshProUGUI hudText;
+    [SerializeField] private TextMeshProUGUI waveText;
+    [SerializeField] private TextMeshProUGUI goldText;
+    [SerializeField] private TextMeshProUGUI hpText;
+
     private EnemySpawner spawner;
     private Health baseHealth;
 
     void Awake()
     {
-        hudText = GetComponent<TextMeshProUGUI>();
         spawner = Object.FindAnyObjectByType<EnemySpawner>();
     }
 
     void Start()
     {
-        // Setup Gold listener
         if (EconomyManager.Instance != null)
         {
             EconomyManager.Instance.OnGoldChanged += HandleGoldChanged;
         }
 
-        // Setup Wave listener
         if (spawner != null)
         {
             spawner.OnWaveStarted += HandleWaveStarted;
         }
 
-        // Setup Base Health listener
         GameObject tower = GameObject.FindWithTag("Tower");
         if (tower != null)
         {
@@ -59,13 +58,13 @@ public class GameHUD : MonoBehaviour
 
     public void UpdateDisplay()
     {
-        if (hudText == null) return;
-
         int gold = EconomyManager.Instance != null ? EconomyManager.Instance.gold : 0;
         int wave = GameManager.Instance != null ? GameManager.Instance.CurrentWave : 0;
+        int totalWaves = GameManager.Instance != null ? GameManager.Instance.TotalWaves : 0;
         float hp = baseHealth != null ? baseHealth.health : 0;
-        float maxHp = baseHealth != null ? baseHealth.maxHealth : 0;
 
-        hudText.text = $"Wave: {wave}\nGold: {gold}\nBase HP: {hp}/{maxHp}";
+        if (goldText != null) goldText.text = gold.ToString();
+        if (waveText != null) waveText.text = $"{wave}/{totalWaves}";
+        if (hpText != null) hpText.text = ((int)hp).ToString();
     }
 }

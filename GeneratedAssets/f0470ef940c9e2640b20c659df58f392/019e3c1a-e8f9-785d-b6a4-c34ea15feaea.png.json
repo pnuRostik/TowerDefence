@@ -1,0 +1,28 @@
+{
+    "asset": "f0470ef940c9e2640b20c659df58f392",
+    "fileName": "019e3c1a-e8f9-785d-b6a4-c34ea15feaea.png",
+    "prompt": "A simple, clean, semi-transparent ice-blue glowing circle range indicator for a 2D game. Top-down view. Soft glowing edges. Ice-like texture but very subtle. Transparent background.",
+    "negativePrompt": "",
+    "model": "gemini-3.1-flash",
+    "modelName": "Gemini 3.1 Nano Banana 2",
+    "customSeed": -1,
+    "w3CTraceId": "",
+    "feedback": 0,
+    "refinementMode": "Generation",
+    "pixelateTargetSize": 0,
+    "pixelateKeepImageSize": false,
+    "pixelatePixelBlockSize": 0,
+    "pixelatePixelGridSize": 0,
+    "pixelateMode": 0,
+    "pixelateOutlineThickness": 0,
+    "doodles": {
+        "m_Items": []
+    },
+    "upscaleFactor": 0,
+    "dimensions": {
+        "width": 1024,
+        "height": 1024
+    },
+    "spriteSheet": false,
+    "duration": 0.0
+}

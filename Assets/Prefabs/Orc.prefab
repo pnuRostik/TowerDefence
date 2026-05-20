@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 5619803072327098599}
   - component: {fileID: 3717484671619404699}
   - component: {fileID: 4763497190529458131}
+  - component: {fileID: 784520540197754845}
+  - component: {fileID: -3292118840490236954}
   m_Layer: 0
   m_Name: Orc
   m_TagString: Untagged
@@ -49,10 +51,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Enemy
   moveSpeed: 1
-  currentPathInstance: {fileID: 0}
+  isGhost: 0
   damage: 30
   distanceTravelled: 0
   myHealth: {fileID: 3115978387963361749}
+  goldReward: 10
+  deathEffectPrefab: {fileID: 1165174257163006497, guid: 6c1528524c8ba1f4598b203589c46741, type: 3}
+  coinEffectPrefab: {fileID: 2777386479496265635, guid: 6029958f991c0f04e88ad52bbd325171, type: 3}
 --- !u!212 &5619803072327098599
 SpriteRenderer:
   serializedVersion: 2
@@ -100,7 +105,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 15
+  m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: -7562568854868626643, guid: 2465a3fb171a08944824ed5af319c882, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -111,7 +116,7 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_SpriteSortPoint: 0
+  m_SpriteSortPoint: 1
 --- !u!58 &3717484671619404699
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -147,7 +152,7 @@ CircleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_Radius: 7.72
+  m_Radius: 0.5
 --- !u!50 &4763497190529458131
 Rigidbody2D:
   serializedVersion: 5
@@ -175,6 +180,41 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!95 &784520540197754845
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1132512659447923071}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: a2c9770460b46854b9b4d1f4914a3e11, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!210 &-3292118840490236954
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1132512659447923071}
+  m_Enabled: 1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 20
+  m_SortAtRoot: 0
+  m_Sort3DAs2D: 0
 --- !u!1 &1320617357829686003
 GameObject:
   m_ObjectHideFlags: 0
@@ -389,7 +429,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 0
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 100
   m_TargetDisplay: 0
 --- !u!114 &3917003453728740116
 MonoBehaviour:
