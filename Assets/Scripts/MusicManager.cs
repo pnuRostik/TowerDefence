@@ -22,8 +22,26 @@ public class MusicManager : MonoBehaviour
     [SerializeField] private AudioSource musicSource;
     [SerializeField] private AudioSource soundSource;
 
+    void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        Instance = this;
+
+        DontDestroyOnLoad(gameObject);
+    }
+
+    void Start()
+    {
+        PlayMenu();
+    }
+
     #if UNITY_WEBGL && !UNITY_EDITOR
-        private bool _webglAudioUnlocked = false;
+private bool _webglAudioUnlocked = false;
 
         void Update()
         {
