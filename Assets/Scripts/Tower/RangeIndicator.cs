@@ -6,14 +6,21 @@ public class RangeIndicator : MonoBehaviour
 
     private void Start()
     {
-        gameObject.SetActive(false);
+        CacheParentTower();
         UpdateScale();
+        gameObject.SetActive(IsAlwaysVisible(parentTower));
+    }
+
+    public static bool IsAlwaysVisible(BaseTower tower)
+    {
+        return tower is MageTower || tower is FreezerTower;
     }
 
     public static void ShowFor(BaseTower tower)
     {
-        HideAll();
-        if (tower == null) return;
+        HideClickable();
+
+        if (tower == null || IsAlwaysVisible(tower)) return;
 
         RangeIndicator indicator = tower.GetComponentInChildren<RangeIndicator>(true);
         if (indicator == null) return;
@@ -24,14 +31,29 @@ public class RangeIndicator : MonoBehaviour
 
     public static void HideAll()
     {
+        HideClickable();
+    }
+
+    private static void HideClickable()
+    {
         foreach (RangeIndicator indicator in FindObjectsByType<RangeIndicator>(FindObjectsSortMode.None))
-            indicator.gameObject.SetActive(false);
+        {
+            indicator.CacheParentTower();
+            if (!IsAlwaysVisible(indicator.parentTower))
+                indicator.gameObject.SetActive(false);
+        }
+    }
+
+    private void CacheParentTower()
+    {
+        if (parentTower == null)
+            parentTower = GetComponentInParent<BaseTower>();
     }
 
     private void UpdateScale()
     {
-        if (parentTower == null) parentTower = GetComponentInParent<BaseTower>();
-        
+        CacheParentTower();
+
         if (parentTower != null && parentTower.data != null)
         {
             float range = parentTower.data.range;
