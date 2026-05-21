@@ -18,7 +18,6 @@ public class EnemySpawner : MonoBehaviour
     public Path pathSystem;
     public int currentBudget = 150;
     public int budgetIncrease = 75;
-    public int maxEnemiesPerWave = 50;
     public float spawnInterval = 1.0f;
 
     private bool isWaveActive = false;
@@ -118,11 +117,10 @@ public class EnemySpawner : MonoBehaviour
         int currentWave = GameManager.Instance.CurrentWave;
         List<EnemyType> waveEnemies = new List<EnemyType>();
         int remainingBudget = GetWaveBudget(currentWave);
-        int maxEnemies = GetMaxEnemiesForWave(currentWave);
 
         List<EnemyType> affordableTypes = new List<EnemyType>();
 
-        while (remainingBudget > 0 && waveEnemies.Count < maxEnemies)
+        while (remainingBudget > 0)
         {
             affordableTypes.Clear();
             foreach (var type in enemyTypes)
@@ -164,17 +162,6 @@ public class EnemySpawner : MonoBehaviour
         };
 
         return Mathf.Max(10, Mathf.RoundToInt(currentBudget * multiplier));
-    }
-
-    private int GetMaxEnemiesForWave(int wave)
-    {
-        return wave switch
-        {
-            1 => 8,
-            2 => 12,
-            3 => 18,
-            _ => maxEnemiesPerWave
-        };
     }
 
     private bool IsEnemyAllowedForWave(EnemyType type, int wave)
