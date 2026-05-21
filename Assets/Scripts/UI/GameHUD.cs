@@ -27,8 +27,10 @@ public class GameHUD : MonoBehaviour
             spawner.OnWaveStarted += HandleWaveStarted;
         }
 
+        GameManager.OnStateChanged += HandleStateChanged;
+
         GameObject tower = GameObject.FindWithTag("Tower");
-        if (tower != null)
+if (tower != null)
         {
             baseHealth = tower.GetComponent<Health>();
             if (baseHealth != null)
@@ -50,15 +52,26 @@ public class GameHUD : MonoBehaviour
         {
             spawner.OnWaveStarted -= HandleWaveStarted;
         }
+        GameManager.OnStateChanged -= HandleStateChanged;
     }
 
     private void HandleGoldChanged(int newGold) => UpdateDisplay();
     private void HandleWaveStarted(int wave) => UpdateDisplay();
     private void HandleHealthChanged(float curr, float max) => UpdateDisplay();
+    private void HandleStateChanged(GameState state) => UpdateDisplay();
 
     public void UpdateDisplay()
     {
-        int gold = EconomyManager.Instance != null ? EconomyManager.Instance.gold : 0;
+        int gold = 0;
+        if (GameManager.Instance != null && GameManager.Instance.CurrentState == GameState.AttackerPlanning)
+        {
+            if (spawner != null) gold = spawner.attackerRemainingBudget;
+        }
+        else
+        {
+            gold = EconomyManager.Instance != null ? EconomyManager.Instance.gold : 0;
+        }
+
         int wave = GameManager.Instance != null ? GameManager.Instance.CurrentWave : 0;
         int totalWaves = GameManager.Instance != null ? GameManager.Instance.TotalWaves : 0;
         float hp = baseHealth != null ? baseHealth.health : 0;

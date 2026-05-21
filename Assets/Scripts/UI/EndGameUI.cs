@@ -44,14 +44,49 @@ public class EndGameUI : MonoBehaviour
     {
         HideAll();
 
+        bool is2P = GameManager.Instance != null && GameManager.Instance.IsTwoPlayerMode;
+
         switch (state)
         {
             case GameState.Victory:
-                if (winPanel != null) winPanel.SetActive(true);
+                if (winPanel != null)
+                {
+                    winPanel.SetActive(true);
+                    if (is2P) 
+                    {
+                        SetPanelText(winPanel, "Title", "DEFENDER VICTORY!");
+                        SetPanelText(winPanel, "Subtitle", "Base survived all waves");
+                    }
+                }
                 break;
             case GameState.Loss:
-                if (losePanel != null) losePanel.SetActive(true);
+                if (is2P)
+                {
+                    if (winPanel != null)
+                    {
+                        winPanel.SetActive(true);
+                        SetPanelText(winPanel, "Title", "ATTACKER VICTORY!");
+                        SetPanelText(winPanel, "Subtitle", "The base has fallen");
+                    }
+                }
+                else
+                {
+                    if (losePanel != null) losePanel.SetActive(true);
+                }
                 break;
+        }
+    }
+
+    private void SetPanelText(GameObject panel, string objectName, string text)
+    {
+        var texts = panel.GetComponentsInChildren<TextMeshProUGUI>(true);
+        foreach (var t in texts)
+        {
+            if (t.gameObject.name == objectName)
+            {
+                t.text = text;
+                break;
+            }
         }
     }
 
@@ -195,9 +230,9 @@ public class EndGameUI : MonoBehaviour
             if (label != null)
             {
                 label.text = buttonText;
-                label.fontSize = 24; // Explicitly set font size
+                label.fontSize = 24;
                 if (font != null) label.font = font;
-            }
+}
 }
         else
         {

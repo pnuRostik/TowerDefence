@@ -5,6 +5,7 @@ using System;
 public enum GameState
 {
     Preparation,
+    AttackerPlanning,
     Battle,
     RoundEnd,
     Victory,
@@ -18,6 +19,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] public GameState CurrentState;
     public static event Action<GameState> OnStateChanged;
 
+    public bool IsTwoPlayerMode = false;
     [SerializeField] private int totalWaves = 15; 
 
     public int CurrentWave  = 1; 
@@ -34,15 +36,16 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        IsTwoPlayerMode = PlayerPrefs.GetInt("TwoPlayerMode", 0) == 1;
+        Debug.Log($"Game Mode: {(IsTwoPlayerMode ? "2 Players" : "1 Player")}");
+        
         ChangeState(GameState.Preparation);
     }
 
     public void ChangeState(GameState newState)
     {
         if (CurrentState == GameState.Loss || CurrentState == GameState.Victory) return;
-
         if (CurrentState == newState) return;
-       
 
         switch (CurrentState)
         {
@@ -50,22 +53,18 @@ public class GameManager : MonoBehaviour
                 break;
             case GameState.Battle:            
                 break;
-
         }
 
-  
         CurrentState = newState;
 
-     
         switch (CurrentState)
         {
             case GameState.Preparation:
-                
                 break;
             case GameState.Battle:
                 if (MusicManager.Instance != null) MusicManager.Instance.PlayFight();
                 break;
-            case GameState.RoundEnd:
+case GameState.RoundEnd:
                 if (MusicManager.Instance != null) MusicManager.Instance.PlayMenu();
                 CheckRoundConditions();
                 break;
