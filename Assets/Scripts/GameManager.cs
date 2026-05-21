@@ -18,8 +18,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] public GameState CurrentState;
     public static event Action<GameState> OnStateChanged;
 
-    [SerializeField] private int totalWaves = 5; 
- 
+    [SerializeField] private int totalWaves = 15; 
+
     public int CurrentWave  = 1; 
     public int TotalWaves => totalWaves;
 
@@ -39,7 +39,6 @@ public class GameManager : MonoBehaviour
 
     public void ChangeState(GameState newState)
     {
-        // prevent bug of changing state after game has ended
         if (CurrentState == GameState.Loss || CurrentState == GameState.Victory) return;
 
         if (CurrentState == newState) return;

@@ -17,11 +17,12 @@ public class EnemySpawner : MonoBehaviour
     public Transform[] spawnPoints;
     public Path pathSystem;
     public int currentBudget = 150;
-    public int budgetIncrease = 75;
-    public float spawnInterval = 1.0f;
+    public int budgetIncrease = 150;
+    public float spawnInterval = 1.5f;
+    [Range(0f, 1f)] public float rewardPercentage = 0.33f;
 
     private bool isWaveActive = false;
-    private int activeEnemyCount = 0;
+private int activeEnemyCount = 0;
     public bool IsWaveActive => isWaveActive;
     public int ActiveEnemyCount => activeEnemyCount;
     public bool CanStartNextWave => !isWaveActive && activeEnemyCount <= 0;
@@ -143,12 +144,8 @@ public class EnemySpawner : MonoBehaviour
 
     private float GetSpawnIntervalForWave(int wave)
     {
-        return wave switch
-        {
-            1 => spawnInterval * 1.4f,
-            2 => spawnInterval * 1.2f,
-            _ => spawnInterval
-        };
+        float interval = spawnInterval - (wave - 1) * 0.0928f;
+        return Mathf.Max(0.2f, interval);
     }
 
     private int GetWaveBudget(int wave)
@@ -195,10 +192,11 @@ public class EnemySpawner : MonoBehaviour
             
             if (enemyObj.TryGetComponent<Enemy>(out var enemyComp))
             {
-                enemyComp.SetGoldReward(type.cost);
+                int reward = Mathf.RoundToInt(type.cost * rewardPercentage);
+                enemyComp.SetGoldReward(reward);
 
                 GameObject[] assignedPath = pathSystem.GetPath(chosenPathIndex);
-                
+
                 enemyComp.InitializePath(assignedPath);
             }
             
