@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class MusicManager : MonoBehaviour
 {
@@ -38,6 +39,37 @@ public class MusicManager : MonoBehaviour
     {
         PlayMenu();
     }
+
+    #if UNITY_WEBGL && !UNITY_EDITOR
+private bool _webglAudioUnlocked = false;
+
+        void Update()
+        {
+            if (!_webglAudioUnlocked)
+            {
+                if (CheckInteraction())
+                {
+                    UnlockAudio();
+                }
+            }
+        }
+
+        private bool CheckInteraction()
+        {
+            if (Pointer.current != null && Pointer.current.press.wasPressedThisFrame) return true;
+            if (Keyboard.current != null && Keyboard.current.anyKey.wasPressedThisFrame) return true;
+            return false;
+        }
+
+        private void UnlockAudio()
+        {
+            if (musicSource != null && musicSource.clip != null && !musicSource.isPlaying)
+            {
+                musicSource.Play();
+            }
+            _webglAudioUnlocked = true;
+        }
+    #endif
 
     public void PlayMenu()
     {
