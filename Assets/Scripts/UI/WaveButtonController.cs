@@ -47,7 +47,14 @@ public class WaveButtonController : MonoBehaviour
     {
         if (GameManager.Instance.CurrentState == GameState.Preparation)
         {
-            GameManager.Instance.ChangeState(GameState.Battle);
+            if (GameManager.Instance.IsTwoPlayerMode)
+            {
+                GameManager.Instance.ChangeState(GameState.AttackerPlanning);
+            }
+            else
+            {
+                GameManager.Instance.ChangeState(GameState.Battle);
+            }
         }
     }
 }

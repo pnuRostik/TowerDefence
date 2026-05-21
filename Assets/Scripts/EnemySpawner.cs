@@ -10,6 +10,13 @@ public struct EnemyType
     public int cost;
 }
 
+[System.Serializable]
+public struct PlannedEnemy
+{
+    public string enemyTypeName;
+    public int pathIndex;
+}
+
 public class EnemySpawner : MonoBehaviour
 {
     [Header("Wave Settings")]
@@ -20,6 +27,9 @@ public class EnemySpawner : MonoBehaviour
     public int budgetIncrease = 150;
     public float spawnInterval = 1.5f;
     [Range(0f, 1f)] public float rewardPercentage = 0.33f;
+
+    public List<PlannedEnemy> attackerQueue = new List<PlannedEnemy>();
+    public int attackerRemainingBudget;
 
     private bool isWaveActive = false;
 private int activeEnemyCount = 0;
@@ -86,31 +96,53 @@ private int activeEnemyCount = 0;
         {
             StartWave();
         }
-    }
-    public void StopAllActivity()
-    {
-        StopAllCoroutines();
-        isWaveActive = false;
-    }
-
-    public void EnemyDestroyed()
-    {
-        activeEnemyCount--;
-    
-        if (activeEnemyCount <= 0 && !isWaveActive)
-        {         
-            Debug.Log("Conditions");
-            GameManager.Instance.ChangeState(GameState.RoundEnd);
+        else if (newState == GameState.AttackerPlanning)
+        {
+            attackerRemainingBudget = GetWaveBudget(GameManager.Instance.CurrentWave);
+            attackerQueue.Clear();
         }
     }
 
     public void StartWave()
     {
         OnWaveStarted?.Invoke(GameManager.Instance.CurrentWave);
-        List<EnemyType> waveEnemies = GenerateWave();
-        StartCoroutine(SpawnWaveRoutine(waveEnemies));
         
+        List<EnemyType> waveEnemies = new List<EnemyType>();
+        List<int> wavePaths = new List<int>();
+
+        if (GameManager.Instance.IsTwoPlayerMode)
+        {
+            foreach (var planned in attackerQueue)
+            {
+                EnemyType type = System.Array.Find(enemyTypes, t => t.name == planned.enemyTypeName);
+                if (type.prefab != null)
+                {
+                    waveEnemies.Add(type);
+                    wavePaths.Add(planned.pathIndex);
+                }
+            }
+        }
+        else
+        {
+            waveEnemies = GenerateWave();
+        }
+
+        StartCoroutine(SpawnWaveRoutine(waveEnemies, wavePaths));
+
         currentBudget += budgetIncrease;
+    }
+
+    public int GetWaveBudget(int wave)
+    {
+        float multiplier = wave switch
+        {
+            1 => 0.55f,
+            2 => 0.7f,
+            3 => 0.85f,
+            _ => 1f
+        };
+
+        return Mathf.Max(10, Mathf.RoundToInt(currentBudget * multiplier));
     }
 
     private List<EnemyType> GenerateWave()
@@ -142,75 +174,88 @@ private int activeEnemyCount = 0;
         return waveEnemies;
     }
 
-    private float GetSpawnIntervalForWave(int wave)
+    public int GetMaxAllowedPathIndex(int wave)
     {
-        float interval = spawnInterval - (wave - 1) * 0.0928f;
-        return Mathf.Max(0.2f, interval);
+        if (wave >= 7) return 2;
+        if (wave >= 4) return 1;
+        return 0;
     }
 
-    private int GetWaveBudget(int wave)
+    private IEnumerator SpawnWaveRoutine(List<EnemyType> enemies, List<int> paths = null)
     {
-        float multiplier = wave switch
-        {
-            1 => 0.55f,
-            2 => 0.7f,
-            3 => 0.85f,
-            _ => 1f
-        };
+        yield return null;
 
-        return Mathf.Max(10, Mathf.RoundToInt(currentBudget * multiplier));
-    }
-
-    private bool IsEnemyAllowedForWave(EnemyType type, int wave)
-    {
-        if (wave == 1) return type.name == "Goblin";
-        if (wave == 2) return type.name != "Orc";
-        return true;
-    }
-
-    private IEnumerator SpawnWaveRoutine(List<EnemyType> enemies)
-    {
         isWaveActive = true;
         activeEnemyCount = enemies.Count;
 
         int currentWave = GameManager.Instance.CurrentWave;
+        int maxAllowedPathIndex = GetMaxAllowedPathIndex(currentWave);
 
-        int maxAllowedPathIndex = 0;
-        if (currentWave >= 4 && currentWave <= 6) maxAllowedPathIndex = 1;
-        else if (currentWave >= 7) maxAllowedPathIndex = 2;
-  
-
-        foreach (EnemyType type in enemies)
+        for (int i = 0; i < enemies.Count; i++)
         {
+            EnemyType type = enemies[i];
+            int chosenPathIndex;
+            
+            if (paths != null && i < paths.Count)
+            {
+                chosenPathIndex = Mathf.Clamp(paths[i], 0, maxAllowedPathIndex);
+            }
+            else
+            {
+                chosenPathIndex = Random.Range(0, maxAllowedPathIndex + 1);
+            }
 
-            int chosenPathIndex = Random.Range(0, maxAllowedPathIndex + 1);
             int spawnPointIndex = (chosenPathIndex < spawnPoints.Length) ? chosenPathIndex : 0;
             Transform spawnPoint = spawnPoints[spawnPointIndex];
 
-
             GameObject enemyObj = GetEnemyFromPool(type, spawnPoint.position, Quaternion.identity);
-            
+
             if (enemyObj.TryGetComponent<Enemy>(out var enemyComp))
             {
                 int reward = Mathf.RoundToInt(type.cost * rewardPercentage);
                 enemyComp.SetGoldReward(reward);
 
                 GameObject[] assignedPath = pathSystem.GetPath(chosenPathIndex);
-
                 enemyComp.InitializePath(assignedPath);
             }
             
             yield return new WaitForSeconds(GetSpawnIntervalForWave(currentWave));
         }
 
-
         isWaveActive = false;
-       
-  
+        
         if (activeEnemyCount <= 0)
         {
             GameManager.Instance.ChangeState(GameState.RoundEnd);
         }
-       
     }
-}
+
+    public void StopAllActivity()
+    {
+        StopAllCoroutines();
+        isWaveActive = false;
+    }
+
+    public void EnemyDestroyed()
+    {
+        activeEnemyCount--;
+    
+        if (activeEnemyCount <= 0 && !isWaveActive)
+        {         
+            GameManager.Instance.ChangeState(GameState.RoundEnd);
+        }
+    }
+
+        private float GetSpawnIntervalForWave(int wave)
+        {
+        float interval = spawnInterval - (wave - 1) * 0.0928f;
+        return Mathf.Max(0.2f, interval);
+        }
+
+        public bool IsEnemyAllowedForWave(EnemyType type, int wave)
+        {
+            if (wave == 1) return type.name == "Goblin";
+            if (wave == 2) return type.name != "Orc";
+            return true;
+        }
+        }
