@@ -6,19 +6,58 @@ public class RangeIndicator : MonoBehaviour
 
     private void Start()
     {
+        CacheParentTower();
         UpdateScale();
+        gameObject.SetActive(IsAlwaysVisible(parentTower));
+    }
+
+    public static bool IsAlwaysVisible(BaseTower tower)
+    {
+        return tower is MageTower || tower is FreezerTower;
+    }
+
+    public static void ShowFor(BaseTower tower)
+    {
+        HideClickable();
+
+        if (tower == null || IsAlwaysVisible(tower)) return;
+
+        RangeIndicator indicator = tower.GetComponentInChildren<RangeIndicator>(true);
+        if (indicator == null) return;
+
+        indicator.UpdateScale();
+        indicator.gameObject.SetActive(true);
+    }
+
+    public static void HideAll()
+    {
+        HideClickable();
+    }
+
+    private static void HideClickable()
+    {
+        foreach (RangeIndicator indicator in FindObjectsByType<RangeIndicator>(FindObjectsSortMode.None))
+        {
+            indicator.CacheParentTower();
+            if (!IsAlwaysVisible(indicator.parentTower))
+                indicator.gameObject.SetActive(false);
+        }
+    }
+
+    private void CacheParentTower()
+    {
+        if (parentTower == null)
+            parentTower = GetComponentInParent<BaseTower>();
     }
 
     private void UpdateScale()
     {
-        if (parentTower == null) parentTower = GetComponentInParent<BaseTower>();
-        
+        CacheParentTower();
+
         if (parentTower != null && parentTower.data != null)
         {
             float range = parentTower.data.range;
-            // Diameter is 2 * range. Since sprite is 1x1, scale is 2 * range.
             transform.localScale = new Vector3(range * 2, range * 2, 1);
-            // Move slightly back in Z to be behind the tower sprite
             transform.localPosition = new Vector3(0, 0, 0.1f);
         }
     }

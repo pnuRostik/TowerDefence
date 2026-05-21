@@ -42,7 +42,7 @@ public class TowerSlot : MonoBehaviour
 
     private void Update()
     {
-        if (data == null) 
+        if (data == null || buyButton == null || EconomyManager.Instance == null)
             return;
 
         bool canAfford = EconomyManager.Instance.CanAfford(data.cost);

@@ -42,7 +42,7 @@ public class BaseTower : MonoBehaviour
         enemiesInRange.RemoveAll(e => e == null || !e.gameObject.activeSelf);
         return enemiesInRange
             .Where(e => Vector2.Distance(transform.position, e.transform.position) <= data.range)
-            .OrderByDescending(e => e.distanceTravelled)
+            .OrderBy(e => e.distanceToEnd)
             .FirstOrDefault();
     }
 
