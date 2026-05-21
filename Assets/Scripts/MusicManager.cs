@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class MusicManager : MonoBehaviour
 {
@@ -21,23 +22,36 @@ public class MusicManager : MonoBehaviour
     [SerializeField] private AudioSource musicSource;
     [SerializeField] private AudioSource soundSource;
 
-    void Awake()
-    {
-        if (Instance != null && Instance != this)
+    #if UNITY_WEBGL && !UNITY_EDITOR
+        private bool _webglAudioUnlocked = false;
+
+        void Update()
         {
-            Destroy(gameObject);
-            return;
+            if (!_webglAudioUnlocked)
+            {
+                if (CheckInteraction())
+                {
+                    UnlockAudio();
+                }
+            }
         }
 
-        Instance = this;
+        private bool CheckInteraction()
+        {
+            if (Pointer.current != null && Pointer.current.press.wasPressedThisFrame) return true;
+            if (Keyboard.current != null && Keyboard.current.anyKey.wasPressedThisFrame) return true;
+            return false;
+        }
 
-        DontDestroyOnLoad(gameObject);
-    }
-
-    void Start()
-    {
-        PlayMenu();
-    }
+        private void UnlockAudio()
+        {
+            if (musicSource != null && musicSource.clip != null && !musicSource.isPlaying)
+            {
+                musicSource.Play();
+            }
+            _webglAudioUnlocked = true;
+        }
+    #endif
 
     public void PlayMenu()
     {
