@@ -51,11 +51,38 @@ public class TowerBuilder : MonoBehaviour
         {
             if (EventSystem.current.IsPointerOverGameObject()) return;
 
+            HandleTowerRangeSelection();
+
             // Prevent opening menu during wave
             if (GameManager.Instance != null && GameManager.Instance.CurrentState != GameState.Preparation) return;
 
             HandleTileSelection();
         }
+        }
+
+        private void HandleTowerRangeSelection()
+        {
+            Vector2 mousePos = Mouse.current.position.ReadValue();
+            Vector3 worldPos = Camera.main.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, 0f));
+            worldPos.z = 0f;
+
+            BaseTower clickedTower = null;
+            float closestDist = 0.6f;
+
+            foreach (BaseTower tower in FindObjectsByType<BaseTower>(FindObjectsSortMode.None))
+            {
+                float dist = Vector2.Distance(worldPos, tower.transform.position);
+                if (dist < closestDist)
+                {
+                    closestDist = dist;
+                    clickedTower = tower;
+                }
+            }
+
+            if (clickedTower != null)
+                RangeIndicator.ShowFor(clickedTower);
+            else
+                RangeIndicator.HideAll();
         }
 
         private void HandleTileSelection()

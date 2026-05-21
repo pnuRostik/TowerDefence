@@ -10,6 +10,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] private int damage = 10;
 
     public float distanceTravelled;
+    public float distanceToEnd;
     private GameObject[] path;
     private int currentIndex = 0;
     private Vector3 _targetPosition;
@@ -38,8 +39,7 @@ private SpriteRenderer spriteRenderer;
         path = assignedPath;
         currentIndex = 0;
         distanceTravelled = 0f;
-
-        
+        distanceToEnd = 0f;
 
         if (path != null && path.Length > 0)
         {
@@ -137,6 +137,7 @@ private SpriteRenderer spriteRenderer;
         distanceTravelled += stepDistance;
 
         _lastPosition = transform.position;
+        distanceToEnd = GetRemainingDistanceToEnd();
 
         if (relativeDisatance < 0.1f)
         {
@@ -163,6 +164,19 @@ private SpriteRenderer spriteRenderer;
             }
         }
 
+    }
+
+    private float GetRemainingDistanceToEnd()
+    {
+        if (path == null || path.Length == 0) return float.MaxValue;
+        if (currentIndex >= path.Length) return 0f;
+
+        float remaining = Vector3.Distance(transform.position, path[currentIndex].transform.position);
+
+        for (int i = currentIndex; i < path.Length - 1; i++)
+            remaining += Vector3.Distance(path[i].transform.position, path[i + 1].transform.position);
+
+        return remaining;
     }
 
     public void TakeDamage(float damage)
