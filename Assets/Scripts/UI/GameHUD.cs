@@ -67,4 +67,33 @@ public class GameHUD : MonoBehaviour
         if (waveText != null) waveText.text = $"{wave}/{totalWaves}";
         if (hpText != null) hpText.text = ((int)hp).ToString();
     }
-}
+
+    [SerializeField] private UnityEngine.UI.Button speedupButton;
+    private bool isSpeededUp = false;
+
+    public void ToggleSpeedup()
+    {
+        if (GameManager.Instance == null) return;
+        
+        GameState state = GameManager.Instance.CurrentState;
+        if (state == GameState.Victory || state == GameState.Loss) return;
+
+        isSpeededUp = !isSpeededUp;
+        Time.timeScale = isSpeededUp ? 10f : 1f;
+        
+        UpdateSpeedupVisuals();
+    }
+
+    private void UpdateSpeedupVisuals()
+    {
+        if (speedupButton != null)
+        {
+            var colors = speedupButton.colors;
+            colors.normalColor = isSpeededUp ? new Color(0.5f, 0.5f, 0.5f, 1f) : Color.white;
+            speedupButton.colors = colors;
+            
+            var tmp = speedupButton.GetComponentInChildren<TMPro.TextMeshProUGUI>();
+            if (tmp != null) tmp.text = isSpeededUp ? "Speed: 10x" : "Speedup 10x";
+        }
+    }
+    }
